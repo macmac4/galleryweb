@@ -1,10 +1,28 @@
 import AlbumDetails from './AlbumDetails';
 import Sidebar from './Sidebar';
 import Hero from './../views/Hero';
+import GetCollection from "../composables/getCollection"
 
 const GalleryList = () => {
+
+  const { documents }  = GetCollection('blogs');
+  console.log(documents);
+
   return (
     <>
+
+     <div className="App">
+       {
+        documents && documents.map((blog, index)=>{
+          return(
+            <div className="blog-container" key={index}>
+              <h4>{blog.title}</h4>
+              <p>{blog.description}</p>
+            </div>
+          )
+        })
+      }
+    </div>
 
       <Hero />
 
