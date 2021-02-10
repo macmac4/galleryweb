@@ -6,7 +6,7 @@ import GetCollection from "../composables/getCollection"
 const GalleryList = () => {
 
   const { documents: albums, isPending, error }  = GetCollection('blogs');
-  console.log(albums);
+  // console.log(albums);
 
   return (
     <>
