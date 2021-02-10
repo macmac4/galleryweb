@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import NavBar from './components/NavBar';
+import GalleryList from './components/GalleryList';
+import CreateAlbum from './components/CreateAlbum';
+import Footer from './views/Footer';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import UserAlbums from './components/UserAlbums';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <Router>
+      <header>
+        <NavBar />
       </header>
-    </div>
+
+      <main>
+        <Switch>
+          <Route exact path="/" >
+            <GalleryList />
+          </Route>
+          <Route path="/create" >
+            <CreateAlbum />
+          </Route>
+          <Route path="/album/:id" >
+            <UserAlbums />
+          </Route>
+        </Switch>
+      </main>
+
+      <Footer />
+    </Router>
   );
 }
 
