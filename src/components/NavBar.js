@@ -12,7 +12,7 @@ const NavBar = () => {
             </div>
             <div className="col-sm-4 offset-md-1 py-4">
               <h4 className="text-white">Quick Links</h4>
-              <ul className="list-unstyled">
+              <ul className="list-link">
                 <li><Link to="/" className="text-white">Home Page</Link></li>
                 <li><Link to="/create" className="text-white">Create Album</Link></li>
                 <li><Link to="/contact" className="text-white">Contact</Link></li>

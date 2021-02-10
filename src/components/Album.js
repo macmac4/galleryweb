@@ -1,4 +1,6 @@
-const AlbumDetails = ({ title, description }) => {
+import { Link } from 'react-router-dom'
+
+const Album = ({ title, description, id }) => {
   return (
 
     <div className="col">
@@ -10,8 +12,8 @@ const AlbumDetails = ({ title, description }) => {
           <p className="card-text">{description}</p>
           <div className="d-flex justify-content-between align-items-center">
             <div className="btn-group">
-              <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-              <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
+              <button type="button" className="btn btn-sm btn-outline-secondary"><Link to={`album/${id}`}>User Album</Link></button>
+              {/* <button type="button" className="btn btn-sm btn-outline-secondary">Delete if user</button> */}
             </div>
             <small className="text-muted">9 mins</small>
           </div>
@@ -22,4 +24,4 @@ const AlbumDetails = ({ title, description }) => {
   );
 }
 
-export default AlbumDetails;
+export default Album;

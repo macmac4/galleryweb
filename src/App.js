@@ -4,6 +4,7 @@ import GalleryList from './components/GalleryList';
 import CreateAlbum from './components/CreateAlbum';
 import Footer from './views/Footer';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import UserAlbums from './components/UserAlbums';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route path="/create" >
             <CreateAlbum />
+          </Route>
+          <Route path="/album/:id" >
+            <UserAlbums />
           </Route>
         </Switch>
       </main>

@@ -1,4 +1,5 @@
-import AlbumDetails from './AlbumDetails';
+import Album from './Album';
+import UserAlbums from './UserAlbums';
 import Sidebar from './Sidebar';
 import Hero from './../views/Hero';
 import GetCollection from "../composables/getCollection"
@@ -26,7 +27,7 @@ const GalleryList = () => {
                 { 
                   albums && albums.map((album, id) => {
                     return (
-                      <AlbumDetails key={id} title={album.title} description={album.description} />
+                      <Album key={id} title={album.title} description={album.description} id={id}/>
                     )
                   })
                 }
