@@ -5,25 +5,11 @@ import GetCollection from "../composables/getCollection"
 
 const GalleryList = () => {
 
-  const { documents }  = GetCollection('blogs');
-  console.log(documents);
+  const { documents: albums, isPending, error }  = GetCollection('blogs');
+  console.log(albums);
 
   return (
     <>
-
-     <div className="App">
-       {
-        documents && documents.map((blog, index)=>{
-          return(
-            <div className="blog-container" key={index}>
-              <h4>{blog.title}</h4>
-              <p>{blog.description}</p>
-            </div>
-          )
-        })
-      }
-    </div>
-
       <Hero />
 
       <div className="album py-5 bg-light">
@@ -32,13 +18,23 @@ const GalleryList = () => {
           <div className="row">
             <div className="col-md-10 col-sm-9">
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-                <AlbumDetails />
-                <AlbumDetails />
-                <AlbumDetails />
-                <AlbumDetails />
-                <AlbumDetails />
-                <AlbumDetails />
+                { 
+                  isPending && <div className="spinner-border text-primary text-center" role="status">
+                                  <span className="visually-hidden">Loading...</span>
+                                </div>
+                }
+                { 
+                  albums && albums.map((album, id) => {
+                    return (
+                      <AlbumDetails key={id} title={album.title} description={album.description} />
+                    )
+                  })
+                }
+                {
+                  error && <div className="alert alert-danger" role="alert">
+                            { error }
+                          </div>
+                }
 
               </div>
             </div>

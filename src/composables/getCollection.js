@@ -1,12 +1,13 @@
 import { projectFirestore } from '../firebase/config'
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const GetCollection = (collection, query) => {
 
   const [documents, setDocuments] = useState([]);
-  // const [error, setError] = useState(null);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
-  let collectionRef = projectFirestore.collection(collection);
+  const collectionRef = projectFirestore.collection(collection);
 
   // if(query) {
   //   collectionRef = collectionRef.where(...query);
@@ -21,10 +22,15 @@ const GetCollection = (collection, query) => {
         id: doc.id,
         ...doc.data()
       })))
+      setIsPending(false);
+    },
+    error => {
+      console.log(error);
+      setError('error fetching data');
     });
-  }, []);
+  }, [collection]);
 
-  return { documents }
+  return { documents, isPending, error }
 }
 
 export default GetCollection
