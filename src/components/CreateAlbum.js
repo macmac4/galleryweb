@@ -1,20 +1,29 @@
 import { useState } from 'react';
 import useStorage from './../composables/useStorage';
 import useCollection from './../composables/useCollection'
+import { timestamp } from './../firebase/config'
+
 
 const CreateAlbum = () => {
-  const { uploadImage, url, error, deleteImage } = useStorage();
+  const { uploadImage, error } = useStorage();
   const { addDoc } = useCollection('albums');
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
+  const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState(null);
   const [listCategory, setListCategory] = useState(['casual', 'holiday', 'animal', 'people']);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const album = {title, description, category };
-    const res = await addDoc(album);
+
+    if (file) {
+      let tmpUrl = await uploadImage(file);
+      const album = {title, description, category, image: tmpUrl, createdAt: timestamp() };
+
+      const res = await addDoc(album);
+    }
   }
 
   const types = ['image/png', 'image/jpeg', 'image/jpg'];
@@ -22,8 +31,12 @@ const CreateAlbum = () => {
     const selected = e.target.files[0]
 
     if (selected && types.includes(selected.type)) {
-      await uploadImage(selected)
-    } 
+      setFile(selected);
+      setFileError(null);
+    } else {
+      setFile(null);
+      setFileError('Wron type of file.');
+    }
 
   }
 
@@ -64,6 +77,7 @@ const CreateAlbum = () => {
                     onChange={ (e) => setCategory(e.target.value) }
                     required
                   >
+                    <option value="">choose category</option>
                     { 
                       listCategory && listCategory.map( (cat, index) => {
                         return (

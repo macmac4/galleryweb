@@ -2,8 +2,6 @@ import { projectStorage } from '../firebase/config'
 import { useState } from 'react';
 
 const useStorage = () => {
-
-  const [url, setUrl] = useState(null);
   const [error, setError] = useState(null);
 
   const uploadImage = async (file) => {
@@ -11,8 +9,9 @@ const useStorage = () => {
     const storageRef = projectStorage.ref(filePath);
 
     try {
-      const res = await storageRef.put(file)
-      setUrl(await res.ref.getDownloadURL());
+      const res = await storageRef.put(file);
+      const tmpUrl = await res.ref.getDownloadURL();
+      return tmpUrl;
 
     } catch(err) {
       setError(err.message);
@@ -31,7 +30,7 @@ const useStorage = () => {
     }
   }
 
-  return { uploadImage, url, error, deleteImage }
+  return { uploadImage, deleteImage, error }
 }
 
 export default useStorage
