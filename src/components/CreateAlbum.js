@@ -1,14 +1,30 @@
 import { useState } from 'react';
+import useStorage from './../composables/useStorage';
+import useCollection from './../composables/useCollection'
 
 const CreateAlbum = () => {
+  const { uploadImage, url, error, deleteImage } = useStorage();
+  const { addDoc } = useCollection('albums');
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [listCategory, setListCategory] = useState(['casual', 'holiday', 'animal', 'people']);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const album = {title, description, category };
+    const res = await addDoc(album);
+  }
+
+  const types = ['image/png', 'image/jpeg', 'image/jpg'];
+  const handleChange = async (e) => {
+    const selected = e.target.files[0]
+
+    if (selected && types.includes(selected.type)) {
+      await uploadImage(selected)
+    } 
+
   }
 
   return (
@@ -62,12 +78,14 @@ const CreateAlbum = () => {
                   <input
                     type="file"
                     className="form-control"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3 mt-3">
                   <div className="alert alert-danger mt-3" role="alert" > </div>
                 </div>
                 <div className="text-center">
+                  <button type="submit" className="btn btn-primary">Create</button>
                   {/* <button v-if="!isPending" type="submit" className="btn btn-primary">Create</button>
                   <button v-else type="submit" className="btn btn-primary" disabled>Saving...</button> */}
                 </div>

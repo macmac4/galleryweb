@@ -2,11 +2,11 @@ import Album from './Album';
 import UserAlbums from './UserAlbums';
 import Sidebar from './Sidebar';
 import Hero from './../views/Hero';
-import GetCollection from "../composables/getCollection"
+import getCollection from "../composables/getCollection"
 
 const GalleryList = () => {
 
-  const { documents: albums, isPending, error }  = GetCollection('blogs');
+  const { documents: albums, isPending, error }  = getCollection('blogs');
   // console.log(albums);
 
   return (
