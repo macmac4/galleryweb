@@ -6,7 +6,7 @@ const UserAlbums = ({ title, description }) => {
 
     <div className="col">
       <div className="card shadow-sm">
-        TODO: Here will be all user albums!!!        
+        TODO: Here will be all user albums!!!  { id }      
       </div>
     </div>
 

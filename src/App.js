@@ -24,6 +24,9 @@ function App() {
           <Route path="/album/:id" >
             <UserAlbums />
           </Route>
+          <Route path="/albums/:name" >
+            <GalleryList />
+          </Route>
         </Switch>
       </main>
 
