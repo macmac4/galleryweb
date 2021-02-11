@@ -10,8 +10,10 @@ const Footer = () => {
         <p className="float-end mb-1">
           <button className="button-top" onClick={handleTop}>Top</button>
         </p>
-        <p className="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-        <p className="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+        <p className="mb-1">Photo Web Album - Here you can collect yours photos. You can gropued by category, tags ...</p>
+        <p className="mb-0">
+          Maid by Maciej using Bootstrap ver 5.0 &nbsp; &nbsp; 
+          <a href="https://getbootstrap.com/">Visit the homepage</a></p>
       </div>
     </footer>
 

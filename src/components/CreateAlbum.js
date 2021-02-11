@@ -112,14 +112,11 @@ const CreateAlbum = () => {
                       />
                     </div>
                     <div className="mb-3 mt-3">
-                      <div className="alert alert-danger mt-3" role="alert" > </div>
+                      { fileError !== null && <div className="alert alert-danger mt-3" role="alert"> {fileError} </div> }
                     </div>
                     <div className="text-center">
-                      {/* <button type="submit" className="btn btn-primary">Create</button> */}
                       { !isPending && <button type="submit" className="btn btn-primary">Create</button> }
                       { isPending && <button type="submit" className="btn btn-primary" disabled>Saving...</button> }
-                      {/* <button v-if="!isPending" type="submit" className="btn btn-primary">Create</button>
-                      <button v-else type="submit" className="btn btn-primary" disabled>Saving...</button> */}
                     </div>
                   </form>  
                 </div>
@@ -129,9 +126,6 @@ const CreateAlbum = () => {
                   <div className="alert alert-success mt-3" role="alert"> 
                     <p>Correctly created album</p> 
                     <Link to="/">Show albums</Link>
-                    {/* <router-link className="btn btn-success" :to="{ name: 'FilmMetric', params: { id: filmID }}">
-                      Show Film
-                    </router-link> */}
                   </div>
               </div> 
               }

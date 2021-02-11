@@ -9,7 +9,7 @@ const GetCollection = (collection, query) => {
   let collectionRef = projectFirestore.collection(collection);
 
   if(query) {
-    collectionRef = collectionRef.where(...query);
+    collectionRef = collectionRef.where(...['category', '==', query]);
   } else {
     collectionRef = collectionRef.orderBy('createdAt', 'desc');
   }
@@ -20,7 +20,8 @@ const GetCollection = (collection, query) => {
       setDocuments(snap.docs.map( doc => ({
         id: doc.id,
         ...doc.data()
-      })))
+      })));
+
       setIsPending(false);
       setError(null);
     },
@@ -29,9 +30,9 @@ const GetCollection = (collection, query) => {
       setDocuments(null);
       setError('error fetching data');
     });
-  },[collection]);
+  },[collection, query]);
 
-  return { documents }
+  return { documents, error, isPending }
 }
 
 export default GetCollection;

@@ -1,3 +1,5 @@
+import { projectFirestore } from '../firebase/config'
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 
 const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
@@ -28,6 +30,31 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
     return Math.floor(seconds) + " seconds";
   }
 
+  const [comments, setComments] = useState([]);
+
+  useEffect (() => {
+    let comm = '';
+    if (id) {
+      comm = projectFirestore
+        .collection('albums')
+        .doc(id)
+        .collection('comments')
+        .onSnapshot((snap) => {
+          setComments(snap.docs.map( doc => ({
+            id: doc.id,
+            ...doc.data()
+          })))
+        })
+    }
+
+    return () => {
+      comm();
+    }
+  }, [id]);
+
+  // console.log(comments);
+
+
   return (
 
     <div className="col album">
@@ -40,7 +67,7 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
           <p className="card-text">{description}</p>
           <div className="d-flex justify-content-between align-items-center">
             <div className="btn-group">
-              <button type="button" className="btn btn-sm btn-outline-secondary category-btn"><Link to={`albums/${category}`}>Category: {category}</Link></button>
+              <button type="button" className="btn btn-sm btn-outline-secondary category-btn"><Link to={`/albums/${category}`}>Category: {category}</Link></button>
               {/* TODO <button type="button" className="btn btn-sm btn-outline-secondary"><Link to={`album/${id}`}>User Album</Link></button> */}
               {/* TODO <button type="button" className="btn btn-sm btn-outline-secondary">Delete if user</button> */}
             </div>

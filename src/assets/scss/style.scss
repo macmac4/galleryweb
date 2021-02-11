@@ -1,4 +1,12 @@
 $main-color: #305f8a;
+@mixin transition {
+  transition: all .2s ease-in-out; 
+
+  &:hover {
+    transform: scale(1.1);
+    font-weight: 700;
+  };
+}
 
 body {
   margin: 0;
@@ -18,25 +26,59 @@ code {
 .btn-primary {
   background-color: $main-color;
 }
+.btn-outline-secondary {
+  color: #FFF;
+  border-color: $main-color;
+}
 a {
   color: $main-color;
 }
+.margin-center {
+  margin: 0px auto;
+  text-align: center;;
+}
 
 header {
+  #navbarHeader, .navbar {
+    background-color: darken($main-color, 10%);
+
+    .text-description {
+      color: rgb(219, 211, 211);
+    }
+  }
+
+  .navbar-dark .navbar-toggler {
+    color: rgb(228, 228, 228);
+    border-color: rgb(228, 228, 228); 
+    box-shadow: none;
+  }
+
   .list-link {
-    padding-left: 5px;
+    margin-top: 20px;
+    padding-left: 15px;
+    list-style-type: none;
 
-    a {
-      text-decoration: none;
+    li {
+      padding: 5px 0px;
+      @include transition;
 
-      &:hover {
-        text-decoration: underline;
+      a {
+        text-decoration: none;
       }
     }
   }
 }
 
 main {
+  .search-bar {
+    margin: 40px 0px;
+    width: 100%;
+
+    .search-bar--input {
+      height: 60px;
+      border: 1px solid $main-color;
+    }
+  }
   .box-form {
     background-color: #FFF;
     padding: 30px;
@@ -44,35 +86,42 @@ main {
 
   }
 
+  .album-title {
+    margin: 0px auto;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+  }
+
   .album {
     .image-album {
       width: 100%;
-      height: 400px;
+      max-height: 400px;
       overflow: hidden;
 
       img {
         object-fit: fill;
-        /* height: 100%; */
-        max-height: 400px;
+        width: 100%;
       }
     }
 
     .category-btn {
       background-color: $main-color;
+      @include transition;
 
       a {
         color: #fff;
         text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        };
       }
     }
   }
 
   .category-list {
     text-transform: capitalize;
+
+      .nav-link {
+        @include transition;
+      }
   }
 }
 
