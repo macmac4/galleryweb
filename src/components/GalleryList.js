@@ -1,13 +1,27 @@
 import Album from './Album';
-import UserAlbums from './UserAlbums';
+import { useParams } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Hero from './../views/Hero';
 import getCollection from "../composables/getCollection"
 
 const GalleryList = () => {
+  const { name } = useParams();
+  // let name = 'animal';
+  // let name = '';
+  console.log(name);
 
-  const { documents: albums, isPending, error }  = getCollection('albums');
-  // console.log(albums);
+  const { documents: albums, isPending, error }  = (() => {
+    if (name) {
+      return (
+        getCollection(
+          'albums',
+          ['category', '==', name]
+        )
+      )
+    } else {
+      return getCollection('albums');
+    }
+  })();
 
   return (
     <>
@@ -27,7 +41,7 @@ const GalleryList = () => {
                 { 
                   albums && albums.map((album, id) => {
                     return (
-                      <Album key={album.id} title={album.title} description={album.description} id={id} imageUrl={album.imageUrl} createdAt={album.createdAt} />
+                      <Album key={album.id} title={album.title} description={album.description} id={id} imageUrl={album.imageUrl} createdAt={album.createdAt} category={album.category} />
                     )
                   })
                 }

@@ -1,28 +1,42 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'
 import useStorage from './../composables/useStorage';
 import useCollection from './../composables/useCollection'
 import { timestamp } from './../firebase/config'
+import GetCollection from '../composables/getCollection';
 
 
 const CreateAlbum = () => {
-  const { uploadImage, error } = useStorage();
-  const { addDoc } = useCollection('albums');
+  const { uploadImage } = useStorage();
+  const { error, addDoc } = useCollection('albums');
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
+  const [filmID, setFilmID] = useState(null);
   const [file, setFile] = useState(null);
   const [fileError, setFileError] = useState(null);
-  const [listCategory, setListCategory] = useState(['casual', 'holiday', 'animal', 'people']);
-
+  const [isPending, setIsPending] = useState(false);
+  const [statusSubmit, setStatusSubmit] = useState(false);
+  const { documents: listCategory } = GetCollection('category');
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (file) {
+      setIsPending(true);
+      setStatusSubmit(false);
+
       let tmpUrl = await uploadImage(file);
       const album = {title, description, category, imageUrl: tmpUrl, createdAt: timestamp() };
-
       const res = await addDoc(album);
+      setIsPending(false);
+
+      if (!error) {
+        setFilmID(res.id);
+        setStatusSubmit(true);
+        console.log('add album')
+      }
     }
   }
 
@@ -47,64 +61,80 @@ const CreateAlbum = () => {
         <div className="container">
 
           <div className="row">
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div className="row justify-content-center row-cols-1 g-3">
+              { !statusSubmit && 
+                <div className="box-form col-lg-6">
+                  <h2>Create New Album</h2>
+                  <form onSubmit={handleSubmit} className="php-email-form">
+                    <div className="form-group mt-3">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="title"
+                        value={title}
+                        onChange={ (e) => setTitle(e.target.value) }
+                        required
+                      />
+                    </div>
+                    <div className="form-group mt-3">
+                      <textarea
+                        className="form-control"
+                        placeholder="description"
+                        value={description}
+                        onChange={ (e) => setDescription(e.target.value) }
+                        required
+                      ></textarea>
+                    </div>
+                    <div className="form-group mt-3">
+                      <select
+                        className="form-control"
+                        aria-label=".form-select-lg example"
+                        value={category}
+                        onChange={ (e) => setCategory(e.target.value) }
+                        required
+                      >
+                        <option value="">choose category</option>
+                        { 
+                          listCategory && listCategory.map( (cat) => {
+                            return (
+                              <option key={cat.id} value={cat.name}>{cat.name}</option>
+                            );
+                          })
+                        }
+                      </select>
+                    </div>
 
-              <form onSubmit={handleSubmit} className="php-email-form w-100">
-                <div className="form-group mt-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="title"
-                    value={title}
-                    onChange={ (e) => setTitle(e.target.value) }
-                    required
-                  />
+                    <div className="form-group mt-3">
+                      <input
+                        type="file"
+                        className="form-control"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="mb-3 mt-3">
+                      <div className="alert alert-danger mt-3" role="alert" > </div>
+                    </div>
+                    <div className="text-center">
+                      {/* <button type="submit" className="btn btn-primary">Create</button> */}
+                      { !isPending && <button type="submit" className="btn btn-primary">Create</button> }
+                      { isPending && <button type="submit" className="btn btn-primary" disabled>Saving...</button> }
+                      {/* <button v-if="!isPending" type="submit" className="btn btn-primary">Create</button>
+                      <button v-else type="submit" className="btn btn-primary" disabled>Saving...</button> */}
+                    </div>
+                  </form>  
                 </div>
-                <div className="form-group mt-3">
-                  <textarea
-                    className="form-control"
-                    placeholder="description"
-                    value={description}
-                    onChange={ (e) => setDescription(e.target.value) }
-                    required
-                  ></textarea>
-                </div>
-                <div className="form-group mt-3">
-                  <select
-                    className="form-control"
-                    aria-label=".form-select-lg example"
-                    value={category}
-                    onChange={ (e) => setCategory(e.target.value) }
-                    required
-                  >
-                    <option value="">choose category</option>
-                    { 
-                      listCategory && listCategory.map( (cat, index) => {
-                        return (
-                          <option key={index} value={cat}>{cat}</option>
-                        );
-                      })
-                    }
-                  </select>
-                </div>
-
-                <div className="form-group mt-3">
-                  <input
-                    type="file"
-                    className="form-control"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3 mt-3">
-                  <div className="alert alert-danger mt-3" role="alert" > </div>
-                </div>
-                <div className="text-center">
-                  <button type="submit" className="btn btn-primary">Create</button>
-                  {/* <button v-if="!isPending" type="submit" className="btn btn-primary">Create</button>
-                  <button v-else type="submit" className="btn btn-primary" disabled>Saving...</button> */}
-                </div>
-              </form>  
-
+              }
+              { statusSubmit && 
+                 <div className="mb-3">
+                  <div className="alert alert-success mt-3" role="alert"> 
+                    <p>Correctly created album</p> 
+                    <Link to="/">Show albums</Link>
+                    {/* <router-link className="btn btn-success" :to="{ name: 'FilmMetric', params: { id: filmID }}">
+                      Show Film
+                    </router-link> */}
+                  </div>
+              </div> 
+              }
             </div>
           </div>
         </div>
