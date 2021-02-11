@@ -27,7 +27,7 @@ const GalleryList = () => {
                 { 
                   albums && albums.map((album, id) => {
                     return (
-                      <Album key={id} title={album.title} description={album.description} id={id}/>
+                      <Album key={id} title={album.title} description={album.description} id={id} imageUrl={album.imageUrl} createdAt={album.createdAt} />
                     )
                   })
                 }

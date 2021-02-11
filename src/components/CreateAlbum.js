@@ -20,7 +20,7 @@ const CreateAlbum = () => {
 
     if (file) {
       let tmpUrl = await uploadImage(file);
-      const album = {title, description, category, image: tmpUrl, createdAt: timestamp() };
+      const album = {title, description, category, imageUrl: tmpUrl, createdAt: timestamp() };
 
       const res = await addDoc(album);
     }
