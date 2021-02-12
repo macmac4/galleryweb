@@ -6,7 +6,7 @@ const Sidebar = () => {
 
   return ( 
     <>
-      <h2>Category</h2>
+      <h2 className="title-category">Category</h2>
       <nav className="nav flex-column category-list">
       <Link className="nav-link" to="/">All Category</Link>
       { 

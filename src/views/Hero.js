@@ -1,6 +1,6 @@
 import getCollection from "../composables/getCollection";
 
-const Hero = ( { searchAlbum }) => {
+const Hero = ( { searchAlbum, albumsAll }) => {
 
   return ( 
     <div className="py-4 text-center container">
@@ -11,8 +11,17 @@ const Hero = ( { searchAlbum }) => {
 
           <form className="d-flex">
             <div className="form-floating mb-3 search-bar">
-              <input type="search" className="form-control me-2 search-bar--input" id="floatingInput" placeholder="Type album title" onChange={searchAlbum} />
+              <input type="search" className="form-control me-2 search-bar--input" list="datalistOptions" id="floatingInput" placeholder="Type album title" onChange={searchAlbum} />
               <label htmlFor="floatingInput">Album Title</label>
+              <datalist id="datalistOptions">
+                { 
+                  albumsAll && albumsAll.map( (album) => {
+                    return (
+                      <option key={album.id} value={album.title} />
+                    )
+                  })
+                }
+              </datalist>
             </div>
             {/* <input className="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search" onChange={searchAlbum} /> */}
           </form>

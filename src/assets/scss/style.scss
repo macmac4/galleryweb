@@ -7,6 +7,18 @@ $main-color: #305f8a;
     font-weight: 700;
   };
 }
+@mixin borderbotom {
+  &::before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 1px;
+    background: #212529;
+    bottom: 0px;
+    left: calc(50% - 60px);
+  }
+}
 
 body {
   margin: 0;
@@ -91,6 +103,11 @@ main {
     text-align: center;
     margin-bottom: 20px;
     font-size: 2rem;
+    position: relative;
+    margin-bottom: 50px;
+    padding-bottom: 10px;
+
+    @include borderbotom;
   }
 
   .album {
@@ -114,8 +131,44 @@ main {
         text-decoration: none;
       }
     }
+
+    .comments-list {
+      margin-top: 20px;
+      font-size: .9rem;
+
+      p {
+        margin: 0px;
+        padding: 0px;
+      }
+    }
+
+    .comments-section {
+
+      .comments-group {
+        border: 1px solid rgba(0,0,0,.125);
+
+        .comments-group--input {
+          border-width: 0px;
+          font-size: .9rem;
+        }
+        .comments-group--button {
+          font-size: .9rem;
+          border-width: 0px;
+          border-radius: 0px;
+          background-color: rgba(0,0,0,.125);
+          color: #524e4e;
+        }
+      }
+    }
   }
 
+  .title-category {
+    position: relative;
+    margin-bottom: 30px;
+    padding: 10px;
+
+    @include borderbotom;
+  }
   .category-list {
     text-transform: capitalize;
 
