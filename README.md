@@ -1,5 +1,5 @@
 # Photo Album sites.
-> WebAlbum is a service that allows you to store photos, add comments, group photos by categories.
+> WebAlbum is a service that allows you to store photos, add comments, group photos by categories. <br />
 > I like to use a new solutions like "UseState", "useEffect" hooks and "function components" were used to build the application.
 
 ## Table of contents
@@ -47,7 +47,7 @@ I'm using metodology Gitflow.
 * the remaining branches contain smaller modules or changes that need to be committed before merging into the test version
 
 ## Status
-Project is: _in progress_
+Project is: _in progress_ <br /><br />
 **Task TODO for near feauture:**
 * register panel - signup 
 * login panel - login
