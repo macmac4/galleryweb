@@ -32,14 +32,14 @@ const GalleryList = () => {
  
   return (
     <>
-      <Hero searchAlbum={searchAlbum} />
+      <Hero searchAlbum={searchAlbum} albumsAll={albumsAll} />
 
       <div className="album py-5 bg-light">
         <div className="container">
 
           <div className="row">
             <div className="col-md-10 col-sm-9">
-              <h2 class="album-title">Album list {name && ` - ${name.toUpperCase()}`}</h2>
+              <h2 className="album-title">Album list {name && ` - ${name.toUpperCase()}`}</h2>
               <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 { 
                   isPending && <div className="spinner-border text-primary margin-center" role="status">
