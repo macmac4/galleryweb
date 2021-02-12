@@ -1,7 +1,9 @@
-import { projectFirestore } from "../firebase/config";
-import { useState, useEffect } from "react";
+import { projectFirestore } from '../firebase/config'
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { timestamp } from './../firebase/config';
+import useComments from './../composables/useComments';
+// import getComments from './../composables/getComments';
 
 const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
 
@@ -38,11 +40,13 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
 
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState([]);
+  const { error, addComment } = useComments('comments', id);
+  // const { comments } = getComments('comments', id);
+
 
   useEffect(() => {
-    let comm = "";
     if (id) {
-      comm = projectFirestore
+      projectFirestore
         .collection('albums')
         .doc(id)
         .collection('comments')
@@ -56,25 +60,18 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
           );
         });
     }
-
-    return () => {
-      comm();
-    };
   }, [id]);
-
-  // console.log(comments);
 
   const postComment = async (e) => {
     e.preventDefault();
 
-    await projectFirestore
-      .collection("albums")
-      .doc(id)
-      .collection("comments")
-      .add({
-        text: comment,
-        createdAt: timestamp()
-      });
+    const cmm = {text: comment, createdAt: timestamp()}
+    const res = await addComment(cmm);
+
+    if (!error) {
+      console.log(res.id);
+      console.log('add comment')
+    }
 
     setComment('');
   };
@@ -99,8 +96,9 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
               {/* TODO <button type="button" className="btn btn-sm btn-outline-secondary"><Link to={`album/${id}`}>User Album</Link></button> */}
               {/* TODO <button type="button" className="btn btn-sm btn-outline-secondary">Delete if user</button> */}
             </div>
-            <small className="text-muted">
-              {timeSince(createdAt.seconds * 1000)} ago
+            <small className="text-muted text-center small-font">
+              <b>created</b> <br />
+              {createdAt.toDate().toDateString()}
             </small>
           </div>
           <div className="comments-list">
