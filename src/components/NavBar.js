@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const NavBar = () => {
   return (
@@ -13,9 +13,9 @@ const NavBar = () => {
             <div className="col-sm-4 offset-md-1 pt-4">
               <h4 className="text-white">Quick Links</h4>
               <ul className="list-link">
-                <li><Link to="/" className="text-white">Album list</Link></li>
-                <li><Link to="/create" className="text-white">Create Album</Link></li>
-                <li><Link to="/contact" className="text-white">Contact</Link></li>
+                <li><NavLink exact activeClassName="active--link" to="/" className="text-white">Album list</NavLink></li>
+                <li><NavLink activeClassName="active--link" to="/create" className="text-white">Create Album</NavLink></li>
+                <li><NavLink activeClassName="active--link" to="/contact" className="text-white">Contact</NavLink></li>
               </ul>
             </div>
           </div>
