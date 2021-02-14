@@ -67,6 +67,11 @@ header {
     .text-description {
       color: rgb(219, 211, 211);
     }
+
+    .active--link {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
   }
 
   .navbar-dark .navbar-toggler {
