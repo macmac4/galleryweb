@@ -5,7 +5,7 @@ const useStorage = () => {
   const [error, setError] = useState(null);
 
   const uploadImage = async (file) => {
-    let filePath = `images/${file.name}`;
+    const filePath = `images/${file.name}`;
     const storageRef = projectStorage.ref(filePath);
 
     try {

@@ -1,79 +1,29 @@
-import { projectFirestore } from '../firebase/config'
-import { useState, useEffect } from 'react';
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { timestamp } from './../firebase/config';
-import useComments from './../composables/useComments';
-// import getComments from './../composables/getComments';
+import { timestamp } from "./../firebase/config";
+import useComments from "./../composables/useComments";
+import getComments from "./../composables/getComments";
+import { timeSince } from "../helpers/utils"
 
 const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
 
-  const timeSince = (date) => {
-    var seconds = Math.floor((new Date() - date) / 1000);
-    var interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + " years ago";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + " months ago";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + " days ago";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + " hours ago";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + " minutes ago";
-    }
-    
-    if (seconds === 0) {
-      return " added now";
-
-    }
-    return Math.floor(seconds) + " seconds ago";
-  };
-
-  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState([]);
-  const { error, addComment } = useComments('comments', id);
-  // const { comments } = getComments('comments', id);
+  const { error, addComment } = useComments("comments", id);
+  const { comments } = getComments("comments", id);
 
-
-  useEffect(() => {
-    if (id) {
-      projectFirestore
-        .collection('albums')
-        .doc(id)
-        .collection('comments')
-        .orderBy('createdAt', 'desc')
-        .onSnapshot((snap) => {
-          setComments(
-            snap.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }))
-          );
-        });
-    }
-  }, [id]);
 
   const postComment = async (e) => {
     e.preventDefault();
 
-    const cmm = {text: comment, createdAt: timestamp()}
+    const cmm = { text: comment, createdAt: timestamp() };
     const res = await addComment(cmm);
 
     if (!error) {
       console.log(res.id);
-      console.log('add comment')
+      console.log("add comment");
     }
 
-    setComment('');
+    setComment("");
   };
 
   return (
@@ -102,13 +52,18 @@ const Album = ({ title, description, imageUrl, createdAt, category, id }) => {
             </small>
           </div>
           <div className="comments-list">
-            {
-              comments && comments.map((comment) => {
+            {comments &&
+              comments.map((comment) => {
                 return (
-                  <p key={comment.id}><strong>{comment.createdAt && timeSince(comment.createdAt.seconds * 1000)} </strong>{comment.text}</p>
-                )
-              })
-            }
+                  <p key={comment.id}>
+                    <strong>
+                      {comment.createdAt &&
+                        timeSince(comment.createdAt.seconds * 1000)}{" "}
+                    </strong>
+                    {comment.text}
+                  </p>
+                );
+              })}
           </div>
         </div>
 

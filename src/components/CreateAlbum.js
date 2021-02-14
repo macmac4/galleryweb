@@ -49,7 +49,7 @@ const CreateAlbum = () => {
       setFileError(null);
     } else {
       setFile(null);
-      setFileError('Wron type of file.');
+      setFileError('Wrong type of file.');
     }
 
   }
@@ -109,7 +109,13 @@ const CreateAlbum = () => {
                         type="file"
                         className="form-control"
                         onChange={handleChange}
+                        required
                       />
+                    </div>
+                    <div className="mb-3 mt-3">
+                      <span class="badge bg-danger">
+                        All above field are required.
+                      </span>
                     </div>
                     <div className="mb-3 mt-3">
                       { fileError !== null && <div className="alert alert-danger mt-3" role="alert"> {fileError} </div> }
