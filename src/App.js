@@ -1,4 +1,5 @@
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle.js';
 import NavBar from './components/NavBar';
 import GalleryList from './components/GalleryList';
 import CreateAlbum from './components/CreateAlbum';

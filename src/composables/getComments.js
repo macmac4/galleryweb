@@ -1,7 +1,7 @@
 import { projectFirestore } from '../firebase/config'
 import { useState, useEffect } from 'react';
 
-const GetComments = async (collection, id) => {
+const GetComments = (collection, id) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -21,8 +21,9 @@ const GetComments = async (collection, id) => {
         });
     }
 
-  }, [id]);
+  }, [id, collection]);
 
+  console.log(comments);
   return { comments }
 }
 
